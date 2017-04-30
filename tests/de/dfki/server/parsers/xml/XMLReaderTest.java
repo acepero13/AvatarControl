@@ -1,6 +1,7 @@
 package de.dfki.server.parsers.xml;
 
 import de.dfki.server.parsers.xml.exceptions.NoTagFound;
+import de.dfki.server.parsers.xml.exceptions.NoValueProvided;
 import org.junit.Test;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -41,20 +42,31 @@ public class XMLReaderTest {
     }
 
     @Test public void
-    getAllTagsValues_MessageXMLValueTag_ValueOneReturned() throws ParserConfigurationException, SAXException, IOException {
+    getAllTagsValues_MessageXMLValueTag_ValueOneReturned() throws ParserConfigurationException, SAXException, IOException, NoValueProvided {
         String xml = makeSimpleXML();
         makeReader(xml);
         LinkedList<String> values = reader.getAllTagsValues("value");
         assertEquals(1, values.size());
     }
 
+    @Test(expected = NoValueProvided.class) public void
+    getAllTagValues_MissingValue_NoValueException() throws ParserConfigurationException, SAXException, IOException, NoValueProvided {
+        String xml = makeSimpleXML("");
+        makeReader(xml);
+        LinkedList<String> values = reader.getAllTagsValues("value");
+    }
+
     public String makeSimpleXML() {
+        return makeSimpleXML("1");
+    }
+
+    public String makeSimpleXML(String value){
         xmlBuilder = new StringBuilder();
         xmlBuilder.append("<?xml version=\"1.0\"?> ");
         xmlBuilder.append("<messages type=\"mood\">");
         xmlBuilder.append("<values>");
         xmlBuilder.append("<value>");
-        xmlBuilder.append("1");
+        xmlBuilder.append(value);
         xmlBuilder.append("</value>");
         xmlBuilder.append("</values>");
         xmlBuilder.append("</messages>");

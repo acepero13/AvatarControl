@@ -2,6 +2,7 @@ package de.dfki.server.parsers.xml;
 
 import de.dfki.server.notifications.DataNotification;
 import de.dfki.server.parsers.xml.exceptions.NoTagFound;
+import de.dfki.server.parsers.xml.exceptions.NoValueProvided;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -56,13 +57,20 @@ public class XMLReader {
         root = doc.getDocumentElement();
     }
 
-    public LinkedList<String> getAllTagsValues(String tagName) {
+    public LinkedList<String> getAllTagsValues(String tagName) throws NoValueProvided {
         NodeList elements = getNodeListFrom(tagName);
         for (int i = 0; i < elements.getLength(); i++) {
             Element element = (Element) elements.item(i);
+            shouldHaveValue(element);
             String value = element.getFirstChild().getNodeValue();
             valuesOfTag.add(value);
         }
         return valuesOfTag;
+    }
+
+    private void shouldHaveValue(Element element) throws NoValueProvided {
+        if(element.getFirstChild() == null){
+            throw  new NoValueProvided("This value tag does not have a value assigned");
+        }
     }
 }

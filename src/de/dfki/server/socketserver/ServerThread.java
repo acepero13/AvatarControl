@@ -1,6 +1,5 @@
 package de.dfki.server.socketserver;
 
-import de.dfki.server.receiver.DataReceiver;
 import de.dfki.server.receiver.Receiver;
 
 import java.io.BufferedReader;
@@ -12,11 +11,11 @@ import java.net.Socket;
 /**
  * Created by alvaro on 4/30/17.
  */
-public class ServerThread extends Thread{
+public class ServerThread extends Thread {
     private final Socket socket;
     private String line = "";
     private BufferedReader is = null;
-    private PrintWriter os =null;
+    private PrintWriter os = null;
     private Receiver receiver;
 
     public ServerThread(Socket socket, Receiver receiver) throws IOException {
@@ -31,13 +30,13 @@ public class ServerThread extends Thread{
         os = new PrintWriter(socket.getOutputStream());
     }
 
-    public void run(){
+    public void run() {
         try {
             line = is.readLine();
             keepReadingData();
         } catch (IOException e) {
             reportError();
-        }finally {
+        } finally {
             cleanup();
         }
 
@@ -54,13 +53,13 @@ public class ServerThread extends Thread{
 
     private void reportError() {
         line = this.getName(); //reused String line for getting thread name
-        System.out.println("IO Error/ Client "+line+" terminated abruptly");
+        System.out.println("IO Error/ Client " + line + " terminated abruptly");
     }
 
     private void keepReadingData() throws IOException {
-        while(notQuitCommand()){
-            receiver.receive(line);
-            System.out.println("Response to Client  :  "+line);
+        while (notQuitCommand()) {
+            receiver.receive(line.trim());
+            System.out.println("Response to Client  :  " + line);
             line = is.readLine();
         }
     }
