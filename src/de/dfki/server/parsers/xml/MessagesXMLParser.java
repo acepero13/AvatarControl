@@ -39,7 +39,5 @@ public abstract class MessagesXMLParser implements Parser{
         }
     }
 
-
-    //class DummyDocumentBuilder
 }
 

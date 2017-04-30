@@ -29,11 +29,11 @@ public class DataReceiverTest {
     }
 
     private void makeReceiver() {
-        dataReceiver = new DataReceiver(new DummyParser());
+        dataReceiver = new DataReceiver();
     }
 
     private void makeReceiver(Parser parser) {
-        dataReceiver = new DataReceiver(parser);
+        dataReceiver = new DataReceiver();
     }
 
     private void spyReceiver(){

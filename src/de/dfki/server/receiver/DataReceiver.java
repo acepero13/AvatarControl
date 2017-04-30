@@ -2,6 +2,7 @@ package de.dfki.server.receiver;
 
 import de.dfki.server.notifications.DataNotification;
 import de.dfki.server.parsers.Parser;
+import de.dfki.server.parsers.xml.MessageParserFactory;
 import de.dfki.server.parsers.xml.exceptions.InvalidValue;
 import de.dfki.server.parsers.xml.exceptions.NoValueProvided;
 
@@ -9,25 +10,29 @@ import de.dfki.server.parsers.xml.exceptions.NoValueProvided;
  * Created by alvaro on 4/28/17.
  */
 public class DataReceiver implements Receiver {
-    private final Parser parser;
+    private Parser parser;
     private final ReceiverObservable notifier;
+    private MessageParserFactory parserFactory;
 
-
-    public DataReceiver(Parser parser){
-        this.parser = parser;
+    public DataReceiver(){
         this.notifier = new Notifier();
+        parserFactory = new MessageParserFactory();
     }
 
     @Override
     public void receive(String data) {
-        DataNotification notification = null;
         try {
-            notification = parser.parse();
-            notifyAll(notification);
+            processReceivedData(data);
         } catch (InvalidValue | NoValueProvided invalidValue) {
             invalidValue.printStackTrace();
         }
 
+    }
+
+    private void processReceivedData(String data) throws InvalidValue, NoValueProvided {
+        parser = parserFactory.buildParser(data);
+        DataNotification notification = parser.parse();
+        notifyAll(notification);
     }
 
     @Override

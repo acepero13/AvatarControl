@@ -8,7 +8,7 @@ import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
-import java.util.LinkedList;
+
 
 /**
  * Created by alvaro on 4/28/17.
@@ -27,8 +27,6 @@ public class MoodParser extends MessagesXMLParser {
         getAsMoodNotification().setMood(value);
         return notification;
     }
-
-
 
     private int getValue(String strValue) throws InvalidValue {
         try {

@@ -28,7 +28,7 @@ public class MessageParserFactory {
         return parser;
     }
 
-    private Parser createParser(String data) throws IOException, ParserConfigurationException, SAXException, NoTagFound {
+    protected Parser createParser(String data) throws IOException, ParserConfigurationException, SAXException, NoTagFound {
         reader = new XMLReader(data);
         Element messages = reader.getFirstTag("messages");
         messageType = messages.getAttribute("type");

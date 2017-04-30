@@ -17,11 +17,7 @@ import static org.junit.Assert.*;
  * Created by alvaro on 4/28/17.
  */
 
-/*
-* TODO:
-* 1. Test when no value is provided
-* 2. Test string instead of integer
-* */
+
 public class MoodParserTest {
     Parser parser ;
     private StringBuilder xmlBuilder;
