@@ -12,6 +12,8 @@ import java.io.IOException;
  * Created by alvaro on 4/30/17.
  */
 public class MessageParserFactory {
+    public static final String INFORMATION_TAG_NAME = "messages";
+    public static final String TYPE_ATTRIBUTE = "type";
     XMLReader reader;
     private String messageType;
     private String data;
@@ -30,8 +32,8 @@ public class MessageParserFactory {
 
     protected Parser createParser(String data) throws IOException, ParserConfigurationException, SAXException, NoTagFound {
         reader = new XMLReader(data);
-        Element messages = reader.getFirstTag("messages");
-        messageType = messages.getAttribute("type");
+        Element messages = reader.getFirstTag(INFORMATION_TAG_NAME);
+        messageType = messages.getAttribute(TYPE_ATTRIBUTE);
         return createNewParser();
     }
 

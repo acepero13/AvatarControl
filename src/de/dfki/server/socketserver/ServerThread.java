@@ -39,7 +39,6 @@ public class ServerThread extends Thread {
         } finally {
             cleanup();
         }
-
     }
 
     private void cleanup() {

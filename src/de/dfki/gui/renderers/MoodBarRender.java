@@ -10,14 +10,13 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 
-import javax.naming.ldap.Control;
-
 /**
  * Created by alvaro on 4/30/17.
  */
 public class MoodBarRender implements Renderable, ReceiverObserver {
 
 
+    public static final double MAX_WIDTH = 64.0;
     private final HBox moodBar;
     private int value;
     private ImageLocator imageLocator;
@@ -34,25 +33,24 @@ public class MoodBarRender implements Renderable, ReceiverObserver {
 
     }
 
-    protected void createImage() {
+    private void createImage() {
         try {
             showImage();
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
     private void showImage() throws Exception {
         String imagePath = imageLocator.getImage(value);
-        ImageView imageView = buildImage(imagePath);
+        ImageView imageView = buildImageControl(imagePath);
         Platform.runLater(()-> moodBar.getChildren().add(imageView));
     }
 
-    protected ImageView buildImage(String imagePath) {
+    protected ImageView buildImageControl(String imagePath) {
         ImageView imageView = new ImageView();
         imageView.setFitHeight(moodBar.getMaxHeight());
-        imageView.setFitWidth(64.0);
+        imageView.setFitWidth(MAX_WIDTH);
         Image image = new Image(String.valueOf(Main.class.getClassLoader().getResource(imagePath)));
         imageView.setImage(image);
         return imageView;
