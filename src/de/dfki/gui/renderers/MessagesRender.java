@@ -59,8 +59,14 @@ public class MessagesRender implements Renderable, ReceiverObserver {
     @Override
     public void update(DataNotification notification) {
         if(notification.getType() == NotificationType.SPEAKOPTIONS){
+            resetIndex();
             options = ((OptionsNotification)notification).getOptions();
             render();
         }
+    }
+
+    private void resetIndex() {
+        colIndex = 0;
+        rowIndex = 0;
     }
 }
