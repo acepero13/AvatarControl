@@ -6,9 +6,12 @@ import de.dfki.gui.renderers.Renderable;
 import de.dfki.server.receiver.DataReceiver;
 import de.dfki.server.receiver.ReceiverObserver;
 import de.dfki.server.socketserver.ServerController;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 
 import java.net.URL;
@@ -22,6 +25,8 @@ public class Controller implements Initializable {
     private Renderable moodBarRender;
     @FXML
     private HBox moodBar;
+    @FXML
+    private GridPane messagesControls;
 
 
     private void initServer() {
@@ -34,9 +39,13 @@ public class Controller implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         receiver = new DataReceiver();
-        messageRender = new MessagesRender();
+        messageRender = new MessagesRender(messagesControls);
         moodBarRender = new MoodBarRender(moodBar);
         receiver.register((ReceiverObserver) moodBarRender);
+        receiver.register((ReceiverObserver) messageRender);
+        messagesControls.setAlignment(Pos.CENTER);
+        messagesControls.setHgap(10);
+        messagesControls.setVgap(10);
         initServer();
     }
 }
