@@ -69,8 +69,8 @@ public class XMLReader {
     }
 
     private void shouldHaveValue(Element element) throws NoValueProvided {
-        if(element.getFirstChild() == null){
-            throw  new NoValueProvided("This value tag does not have a value assigned");
+        if (element.getFirstChild() == null) {
+            throw new NoValueProvided("This value tag does not have a value assigned");
         }
     }
 }

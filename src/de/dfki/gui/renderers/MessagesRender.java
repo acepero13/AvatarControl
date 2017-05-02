@@ -47,8 +47,6 @@ public class MessagesRender implements Renderable, ReceiverObserver {
             colIndex = 0;
             rowIndex++;
         }
-
-
     }
 
     protected void clearPane() {
