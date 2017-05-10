@@ -62,6 +62,13 @@ public class ServerThread extends Thread {
             line = is.readLine();
         }
     }
+    public void interrupt(){
+        try {
+            socket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     private boolean notQuitCommand() {
         return !line.equals("QUIT");

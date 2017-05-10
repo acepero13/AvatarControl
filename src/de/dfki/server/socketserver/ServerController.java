@@ -12,16 +12,30 @@ import java.util.LinkedList;
  */
 public class ServerController {
     public static final int SERVER_PORT = 8100;
-    public static final boolean ALLOW_MULTIPLE_CLIENTS = false;
-    public static final int MAX_CONNECTED_CLIENTS = 3;
-    private final Receiver receiver;
+    public static final int MAX_CONNECTED_CLIENTS = 4;
+    private final boolean allowMultipleClients;
+    private Receiver receiver;
     private ServerSocket server = null;
     private final LinkedList<Socket> clients = new LinkedList<>();
 
     public ServerController(Receiver receiver){
+        this.allowMultipleClients = false;
+        startServer(receiver);
+    }
+
+    public ServerController(Receiver receiver, boolean allowMultipleClients){
+        startServer(receiver);
+        this.allowMultipleClients = allowMultipleClients;
+    }
+
+    private void startServer(Receiver receiver) {
         this.receiver = receiver;
         listen();
         connect();
+    }
+
+    public void close() throws IOException {
+        server.close();
     }
 
     private void listen(){
@@ -51,7 +65,7 @@ public class ServerController {
     }
 
     private boolean canAcceptMoreConnections() {
-        return (ALLOW_MULTIPLE_CLIENTS && MAX_CONNECTED_CLIENTS < clients.size()) || (noClientsConnected());
+        return (allowMultipleClients && MAX_CONNECTED_CLIENTS > clients.size()) || (noClientsConnected());
     }
 
     private boolean noClientsConnected() {
