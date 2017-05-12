@@ -1,5 +1,6 @@
 package de.dfki.gui.renderers;
 
+import de.dfki.client.Client;
 import de.dfki.gui.Main;
 import de.dfki.server.notifications.DataNotification;
 import de.dfki.server.notifications.MoodNotification;

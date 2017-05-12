@@ -57,6 +57,7 @@ public class ServerThread extends Thread {
 
     private void keepReadingData() throws IOException {
         while (notQuitCommand()) {
+            System.out.println(line);
             receiver.receive(line.trim());
             System.out.println("Response to Client  :  " + line);
             line = is.readLine();
