@@ -1,19 +1,21 @@
 package de.dfki.gui;
 
 import de.dfki.client.Client;
-import de.dfki.gui.renderers.MessagesRender;
-import de.dfki.gui.renderers.MoodBarRender;
+import de.dfki.gui.renderers.options.MessagesRender;
+import de.dfki.gui.renderers.moodbar.MoodBarRender;
 import de.dfki.gui.renderers.Renderable;
+import de.dfki.gui.renderers.statusbar.StatusBarRenderer;
 import de.dfki.server.receiver.DataReceiver;
 import de.dfki.server.receiver.ReceiverObserver;
 import de.dfki.server.socketserver.ServerController;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
+import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 
 import java.io.IOException;
 import java.net.URL;
@@ -27,14 +29,19 @@ public class Controller implements Initializable {
     private ServerController serverController;
     private Renderable messageRender;
     private Renderable moodBarRender;
+
     @FXML
-    private HBox moodBar;
+    private Pane paneBar;
     @FXML
     private GridPane messagesControls;
+    @FXML
+    private ImageView moodImage;
+    @FXML
+    private Label statusLabel;
     private Client client;
 
     private void initServer() {
-        Thread thread = new Thread(() -> serverController = new ServerController(receiver));
+        Thread thread = new Thread(() -> serverController = new ServerController(receiver, statusLabel));
         thread.start();
     }
 
@@ -45,9 +52,9 @@ public class Controller implements Initializable {
         messagesControls.setAlignment(Pos.CENTER);
         messagesControls.setHgap(10);
         messagesControls.setVgap(10);
-        createClient();
+        //createClient();
         messageRender = new MessagesRender(messagesControls, client);
-        moodBarRender = new MoodBarRender(moodBar);
+        moodBarRender = new MoodBarRender(paneBar, moodImage);
         receiver.register((ReceiverObserver) moodBarRender);
         receiver.register((ReceiverObserver) messageRender);
     }

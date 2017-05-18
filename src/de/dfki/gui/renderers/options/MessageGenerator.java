@@ -1,4 +1,4 @@
-package de.dfki.gui.renderers;
+package de.dfki.gui.renderers.options;
 
 import java.util.LinkedList;
 

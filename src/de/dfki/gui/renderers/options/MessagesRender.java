@@ -1,6 +1,7 @@
-package de.dfki.gui.renderers;
+package de.dfki.gui.renderers.options;
 
 import de.dfki.client.Client;
+import de.dfki.gui.renderers.Renderable;
 import de.dfki.server.notifications.DataNotification;
 import de.dfki.server.notifications.NotificationType;
 import de.dfki.server.notifications.OptionsNotification;
@@ -46,6 +47,7 @@ public class MessagesRender implements Renderable, ReceiverObserver {
         final int column = colIndex;
         final int row = rowIndex;
         button.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+        button.getStyleClass().add("dark-blue");
         Platform.runLater(()->optionsContainer.add(button, column, row));
         button.setOnAction(new EventHandler<ActionEvent>() {
             @Override

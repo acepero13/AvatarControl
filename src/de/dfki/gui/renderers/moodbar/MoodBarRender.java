@@ -1,7 +1,7 @@
-package de.dfki.gui.renderers;
+package de.dfki.gui.renderers.moodbar;
 
-import de.dfki.client.Client;
 import de.dfki.gui.Main;
+import de.dfki.gui.renderers.Renderable;
 import de.dfki.server.notifications.DataNotification;
 import de.dfki.server.notifications.MoodNotification;
 import de.dfki.server.notifications.NotificationType;
@@ -10,6 +10,7 @@ import javafx.application.Platform;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 
 /**
  * Created by alvaro on 4/30/17.
@@ -18,13 +19,14 @@ public class MoodBarRender implements Renderable, ReceiverObserver {
 
 
     public static final double MAX_WIDTH = 64.0;
-    private final HBox moodBar;
+    public static final String IMGS_MARKER_PNG = "imgs/marker.png";
+    private final Pane moodBar;
     private int value;
-    private ImageLocator imageLocator;
+    private MarkPositionCalculator imageLocator;
 
-    public MoodBarRender(HBox moodBar){
+    public MoodBarRender(Pane moodBar, ImageView moodImage){
         this.moodBar = moodBar;
-        imageLocator = new ImageLocator();
+        imageLocator = new MarkPositionCalculator(moodImage.getFitWidth());
     }
 
     @Override
@@ -42,17 +44,21 @@ public class MoodBarRender implements Renderable, ReceiverObserver {
         }
     }
 
-    private void showImage() throws Exception {
-        String imagePath = imageLocator.getImage(value);
-        ImageView imageView = buildImageControl(imagePath);
+    private void showImage() {
+
+        ImageView imageView = buildImageControl();
         Platform.runLater(()-> moodBar.getChildren().add(imageView));
     }
 
-    protected ImageView buildImageControl(String imagePath) {
+    protected ImageView buildImageControl() {
+
         ImageView imageView = new ImageView();
-        imageView.setFitHeight(moodBar.getMaxHeight());
-        imageView.setFitWidth(MAX_WIDTH);
-        Image image = new Image(String.valueOf(Main.class.getClassLoader().getResource(imagePath)));
+        imageView.setFitHeight(24);
+        imageView.setFitWidth(24);
+        double x = imageLocator.calculatePosition(value);
+        imageView.setLayoutX(x);
+        imageView.setLayoutY(2);
+        Image image = new Image(String.valueOf(Main.class.getClassLoader().getResource(IMGS_MARKER_PNG)));
         imageView.setImage(image);
         return imageView;
     }

@@ -1,19 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
-<?import java.lang.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="703.0" prefWidth="1103.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.dfki.gui.Controller">
    <children>
+      <Pane fx:id="paneBar" prefHeight="27.0" prefWidth="1070.0" />
       <HBox fx:id="moodBar" layoutX="-1.0" maxHeight="64.0" prefWidth="600.0" />
-      <GridPane fx:id="messagesControls" layoutY="55.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="596.0" prefWidth="1103.0" AnchorPane.bottomAnchor="52.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="55.0">
+      <GridPane fx:id="messagesControls" layoutY="84.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="567.0" prefWidth="1103.0" AnchorPane.bottomAnchor="52.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="84.0">
         <columnConstraints>
           <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
           <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
@@ -26,6 +31,11 @@
         </rowConstraints>
       </GridPane>
       <HBox fx:id="statusBar" layoutX="81.0" layoutY="662.0" prefHeight="27.0" prefWidth="600.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="81.0" />
-      <Label fx:id="statusLabel" layoutX="22.0" layoutY="664.0" prefHeight="25.0" prefWidth="93.0" text="Status:" />
+      <Label fx:id="statusLabel" layoutX="22.0" layoutY="664.0" prefHeight="25.0" prefWidth="981.0" text="Status:" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="22.0" />
+      <ImageView fx:id="moodImage" fitHeight="65.0" fitWidth="348.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="662.6000003814697" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="755.0" AnchorPane.topAnchor="14.0">
+         <image>
+            <Image url="file:/home/alvaro/Documents/WorkHiwi/AvatarControl/res/imgs/bar.png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>

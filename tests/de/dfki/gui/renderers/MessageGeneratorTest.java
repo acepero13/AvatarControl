@@ -1,5 +1,6 @@
 package de.dfki.gui.renderers;
 
+import de.dfki.gui.renderers.options.MessageGenerator;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
