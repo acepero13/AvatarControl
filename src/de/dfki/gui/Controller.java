@@ -52,7 +52,7 @@ public class Controller implements Initializable {
         messagesControls.setAlignment(Pos.CENTER);
         messagesControls.setHgap(10);
         messagesControls.setVgap(10);
-        //createClient();
+        createClient();
         messageRender = new MessagesRender(messagesControls, client);
         moodBarRender = new MoodBarRender(paneBar, moodImage);
         receiver.register((ReceiverObserver) moodBarRender);

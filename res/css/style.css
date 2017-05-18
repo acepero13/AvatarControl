@@ -228,5 +228,6 @@
 }
 
 .root {
-    -fx-background-image: url("background.jpg");
+    -webkit-fx-background-color: blue;
+
 }
