@@ -8,11 +8,13 @@ import de.dfki.server.notifications.OptionsNotification;
 import de.dfki.server.receiver.ReceiverObserver;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 
 import java.io.IOException;
+import java.util.EventListener;
 import java.util.LinkedList;
 
 /**
@@ -42,30 +44,16 @@ public class MessagesRender implements Renderable, ReceiverObserver {
         }
     }
 
-    protected void createOptions(String option) {
+    private void createOptions(String option) {
         final Button button = new Button(option);
         final int column = colIndex;
         final int row = rowIndex;
         button.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         button.getStyleClass().add("dark-blue");
         Platform.runLater(()->optionsContainer.add(button, column, row));
-        button.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                String text = button.getText();
-                String textToSend = messageGenerator.generate(text);
-                send(textToSend);
-            }
-
-            void send(String textToSend) {
-                try {
-                    client.send(textToSend);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
+        button.setOnAction(new SendEventHandler(button));
     }
+
 
     private void updateIndexes() {
         colIndex++;
@@ -75,7 +63,7 @@ public class MessagesRender implements Renderable, ReceiverObserver {
         }
     }
 
-    protected void clearPane() {
+    private void clearPane() {
         if(optionsContainer.getChildren().size() > 0)
             Platform.runLater(()->optionsContainer.getChildren().clear());
     }
@@ -92,5 +80,28 @@ public class MessagesRender implements Renderable, ReceiverObserver {
     private void resetIndex() {
         colIndex = 0;
         rowIndex = 0;
+    }
+
+    private class SendEventHandler implements EventHandler<ActionEvent> {
+        private final Button button;
+
+        SendEventHandler(Button button) {
+            this.button = button;
+        }
+
+        @Override
+        public void handle(ActionEvent event) {
+            String text = button.getText();
+            String textToSend = messageGenerator.generate(text);
+            send(textToSend);
+        }
+
+        void send(String textToSend) {
+            try {
+                client.send(textToSend);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

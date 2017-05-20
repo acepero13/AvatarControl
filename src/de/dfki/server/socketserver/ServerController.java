@@ -11,6 +11,7 @@ import javafx.scene.control.Label;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.HashMap;
 import java.util.LinkedList;
 
 /**
@@ -19,27 +20,29 @@ import java.util.LinkedList;
 public class ServerController implements StatusObservable {
     public static final int SERVER_PORT = 8100;
     public static final int MAX_CONNECTED_CLIENTS = 4;
+    public static final String CLIENT_PREFIX = "Client:";
     private final boolean allowMultipleClients;
     private Receiver receiver;
     private ServerSocket server = null;
-    private final LinkedList<Socket> clients = new LinkedList<>();
+    private final HashMap<String, Socket> clients = new HashMap<>();
     private StatusNotifier statusNotifier = new StatusNotifier();
+    private int clientsCounter = 0;
 
     public ServerController(Receiver receiver){
-        this.allowMultipleClients = false;
+        this.allowMultipleClients = true;
         startServer(receiver);
     }
 
     public ServerController(Receiver receiver, boolean allowMultipleClients){
-        startServer(receiver);
         this.allowMultipleClients = allowMultipleClients;
+        startServer(receiver);
     }
 
     public ServerController(DataReceiver receiver, Label statusLabel) {
+        this.allowMultipleClients = true;
         StatusBarRenderer statusBarRenderer = new StatusBarRenderer(statusLabel);
         register(statusBarRenderer);
         startServer(receiver);
-        this.allowMultipleClients = false;
     }
 
     private void startServer(Receiver receiver) {
@@ -72,11 +75,17 @@ public class ServerController implements StatusObservable {
     private void acceptConnection() throws IOException {
         while (canAcceptMoreConnections()){
             Socket clientSocket = server.accept();
+            String clientId = getClientId();
             notifyAll("Connected");
-            ServerThread serverThread = new ServerThread(clientSocket, receiver);
-            clients.add(clientSocket);
+            ServerThread serverThread = new ServerThread(clientSocket, receiver, clientId);
+            clients.put(clientId, clientSocket);
             serverThread.start();
         }
+    }
+
+    private String getClientId() {
+        clientsCounter++;
+        return CLIENT_PREFIX + clientsCounter;
     }
 
     private boolean canAcceptMoreConnections() {

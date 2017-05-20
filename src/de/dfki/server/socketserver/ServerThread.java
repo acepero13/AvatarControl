@@ -2,32 +2,33 @@ package de.dfki.server.socketserver;
 
 import de.dfki.server.receiver.Receiver;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.Socket;
 
 /**
  * Created by alvaro on 4/30/17.
  */
 public class ServerThread extends Thread {
+    public static final String QUIT_COMMAND = "QUIT";
     private final Socket socket;
     private String line = "";
     private BufferedReader is = null;
-    private PrintWriter os = null;
+    private DataOutputStream os = null;
     private Receiver receiver;
+    private String clientId;
 
-    public ServerThread(Socket socket, Receiver receiver) throws IOException {
+    public ServerThread(Socket socket, Receiver receiver, String clientId) throws IOException {
+        this.clientId = clientId;
         this.socket = socket;
         this.receiver = receiver;
         init(socket);
+        os.writeBytes(clientId + "\n");
 
     }
 
     private void init(Socket socket) throws IOException {
         is = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-        os = new PrintWriter(socket.getOutputStream());
+        os = new DataOutputStream(socket.getOutputStream());
     }
 
     public void run() {
@@ -56,7 +57,7 @@ public class ServerThread extends Thread {
     }
 
     private void keepReadingData() throws IOException {
-        while (notQuitCommand()) {
+        while (!isQuitCommand()) {
             System.out.println(line);
             receiver.receive(line.trim());
             System.out.println("Response to Client  :  " + line);
@@ -71,7 +72,7 @@ public class ServerThread extends Thread {
         }
     }
 
-    private boolean notQuitCommand() {
-        return !line.equals("QUIT");
+    private boolean isQuitCommand() {
+        return line.contains(QUIT_COMMAND) && line.substring(QUIT_COMMAND.length() + 1).equals(clientId);
     }
 }
