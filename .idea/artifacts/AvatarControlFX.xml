@@ -1,0 +1,20 @@
+<component name="ArtifactManager">
+  <artifact type="javafx" name="AvatarControlFX">
+    <output-path>$PROJECT_DIR$/out/artifacts/AvatarControlFX</output-path>
+    <properties id="javafx-properties">
+      <options>
+        <option name="appClass" value="de.dfki.gui.Main" />
+        <option name="description" value="" />
+        <option name="htmlPlaceholderId" value="" />
+        <option name="title" value="AvatarControl" />
+        <option name="vendor" value="" />
+        <option name="version" value="1.0" />
+      </options>
+    </properties>
+    <root id="root">
+      <element id="archive" name="AvatarControl.jar">
+        <element id="module-output" name="AvatarControl" />
+      </element>
+    </root>
+  </artifact>
+</component>
