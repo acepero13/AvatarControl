@@ -21,6 +21,7 @@ public class ServerController implements StatusObservable {
     public static final int SERVER_PORT = 8100;
     public static final int MAX_CONNECTED_CLIENTS = 4;
     public static final String CLIENT_PREFIX = "Client:";
+    public static final boolean ALLOW_MULTIPLE_CONNECTIONS_DEFAULT = false;
     private final boolean allowMultipleClients;
     private Receiver receiver;
     private ServerSocket server = null;
@@ -29,7 +30,7 @@ public class ServerController implements StatusObservable {
     private int clientsCounter = 0;
 
     public ServerController(Receiver receiver){
-        this.allowMultipleClients = true;
+        this.allowMultipleClients = ALLOW_MULTIPLE_CONNECTIONS_DEFAULT;
         startServer(receiver);
     }
 
@@ -39,7 +40,7 @@ public class ServerController implements StatusObservable {
     }
 
     public ServerController(DataReceiver receiver, Label statusLabel) {
-        this.allowMultipleClients = true;
+        this.allowMultipleClients = ALLOW_MULTIPLE_CONNECTIONS_DEFAULT;
         StatusBarRenderer statusBarRenderer = new StatusBarRenderer(statusLabel);
         register(statusBarRenderer);
         startServer(receiver);

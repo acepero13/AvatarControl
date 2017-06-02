@@ -14,6 +14,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.EventListener;
 import java.util.LinkedList;
 
@@ -38,6 +39,7 @@ public class MessagesRender implements Renderable, ReceiverObserver {
     @Override
     public void render() {
         clearPane();
+        Collections.shuffle(options);
         for (String option:options) {
             createOptions(option);
             updateIndexes();
