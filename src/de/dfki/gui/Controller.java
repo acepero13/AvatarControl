@@ -4,7 +4,7 @@ import de.dfki.client.Client;
 import de.dfki.gui.renderers.options.MessagesRender;
 import de.dfki.gui.renderers.moodbar.MoodBarRender;
 import de.dfki.gui.renderers.Renderable;
-import de.dfki.gui.renderers.statusbar.StatusBarRenderer;
+import de.dfki.gui.renderers.voicerecognitionselector.VRSelectorRenderer;
 import de.dfki.server.receiver.DataReceiver;
 import de.dfki.server.receiver.ReceiverObserver;
 import de.dfki.server.socketserver.ServerController;
@@ -14,7 +14,6 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 
 import java.io.IOException;
@@ -29,6 +28,7 @@ public class Controller implements Initializable {
     private ServerController serverController;
     private Renderable messageRender;
     private Renderable moodBarRender;
+    private Renderable voiceRecognitionSelectorRender;
 
     @FXML
     private Pane paneBar;
@@ -55,8 +55,10 @@ public class Controller implements Initializable {
         createClient();
         messageRender = new MessagesRender(messagesControls, client);
         moodBarRender = new MoodBarRender(paneBar, moodImage);
+        voiceRecognitionSelectorRender = new VRSelectorRenderer(messagesControls);
         receiver.register((ReceiverObserver) moodBarRender);
         receiver.register((ReceiverObserver) messageRender);
+        receiver.register((ReceiverObserver) voiceRecognitionSelectorRender);
     }
 
 

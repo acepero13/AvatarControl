@@ -43,6 +43,8 @@ public class MessageParserFactory {
                 return new MoodParser(data);
             case "options":
                 return new OptionsParser(data);
+            case "selection":
+                return new VASelector(data);
             default:
                 return new DummyParser(data);
         }

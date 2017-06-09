@@ -21,7 +21,7 @@ public class ServerController implements StatusObservable {
     public static final int SERVER_PORT = 8100;
     public static final int MAX_CONNECTED_CLIENTS = 4;
     public static final String CLIENT_PREFIX = "Client:";
-    public static final boolean ALLOW_MULTIPLE_CONNECTIONS_DEFAULT = false;
+    public static final boolean ALLOW_MULTIPLE_CONNECTIONS_DEFAULT = true;
     private final boolean allowMultipleClients;
     private Receiver receiver;
     private ServerSocket server = null;
